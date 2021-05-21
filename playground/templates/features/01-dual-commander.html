@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block extra_js %}
+  <script type="module" src="static/js/features/01-dual-commander.js"></script>
+{% endblock %}
+
+{% block content %}
+  <main class="container py-3">
+    <h1>Dual Commander</h1>
+    <div class="example">
+        <div id="document"></div>
+        <div id="folder"></div>
+    </div>
+  </main>
+{% endblock %}

@@ -1,0 +1,32 @@
+li {
+    display: flex;
+    align-items: center;
+}
+
+li p {
+    padding-right: 1rem;
+}
+
+.panel {
+    border: 1px solid #ccc;
+}
+
+.nav-item > a.nav-link {
+    color: white;
+}
+
+#panel_container {
+    position: relative;
+}
+
+#panel_container_left {
+    position: relative;
+}
+
+#panel_container_right {
+    position: relative;
+}
+
+.loader {
+    position: absolute !important;
+}

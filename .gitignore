@@ -1,0 +1,9 @@
+node_modules/
+playground/.venv/
+playground/__pycache__/
+playground/static/dist
+test-dist/
+dist/
+*.code-workspace
+*.pyc
+.vscode

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <main class="container py-3">
+    <p>
+        Document commander is ultra modern web based document browser used by <a href="https://github.com/ciur/papermerge">Papermerge project</a>. On this page you will find all information regarding double commander features, API and use cases description with examples.
+    </p>
+    <h1>Features Demo</h1>
+    <ul>
+        {% for feature in features %}
+            <li>
+                <a href="{{ feature.url }}">{{ feature.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+  </main>
+{% endblock %}
