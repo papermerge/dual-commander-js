@@ -1,3 +1,4 @@
-import { DualCommanderViewer } from "./views/dual_commander";
+import { DualCommanderView } from "./views/dual_commander";
+import { urlconf } from "./urls";
 
-export { DualCommanderViewer };
+export { DualCommanderView, urlconf };

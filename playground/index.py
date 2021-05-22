@@ -7,7 +7,10 @@ from flask import (
     render_template,
     send_from_directory
 )
-from app.commander import global_context
+from app.commander import (
+    create_blueprint,
+    global_context
+)
 
 
 def create_app(delay_seconds=0, no_cache=False):
@@ -24,17 +27,15 @@ def create_app(delay_seconds=0, no_cache=False):
     app.jinja_env.auto_reload = True
     app.config['DEBUG'] = True
 
+    app.register_blueprint(
+        create_blueprint('01-dual-commander', request_delay=0.1),
+        url_prefix='/01-dual-commander'
+    )
+
     @app.route('/')
     def index():
         return render_template(
             "index.html",
-            **global_context
-        )
-
-    @app.route('/01-dual-commander')
-    def basic_rendering():
-        return render_template(
-            "features/01-dual-commander.html",
             **global_context
         )
 

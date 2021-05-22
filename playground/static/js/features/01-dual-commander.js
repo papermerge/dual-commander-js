@@ -1,13 +1,13 @@
 window.addEventListener('DOMContentLoaded', () => {
-    let DC = DocumentCommander,
-        duo_commander,
+    let DC = DualCommander,
+        dual_commander,
         switch_2_single,
         switch_2_dual;
 
 
-    DC.urlconf.prefix = '/05-dual-panel-browsing';
+    DC.urlconf.prefix = '/01-dual-commander';
 
-    duo_commander = new DC.CommanderDualPanelView({
+    dual_commander = new DC.DualCommanderView({
         'panel_left': {
             'panel': {
                 'el': document.querySelector('#panel_left'),
@@ -28,12 +28,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    duo_commander.initial_fetch();
-    duo_commander.panel_view_left.on('document_clicked', (doc) => {
+    dual_commander.initial_fetch();
+    dual_commander.panel_view_left.on('document_clicked', (doc) => {
         alert(`Panel Left: doc id=${doc.id} title=${doc.title} clicked`);
     });
 
-    duo_commander.panel_view_right.on('document_clicked', (doc) => {
+    dual_commander.panel_view_right.on('document_clicked', (doc) => {
         alert(`Panel Right: doc id=${doc.id} title=${doc.title} clicked`);
     });
 

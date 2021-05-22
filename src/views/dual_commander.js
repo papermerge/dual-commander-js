@@ -20,7 +20,7 @@ class DualCommanderView extends View {
         );
         this.options = options;
 
-        this.on("switch-mode", on_switch_mode, this);
+        this.on("switch-mode", this.on_switch_mode, this);
     }
 
     initial_fetch(left_folder, right_folder) {
