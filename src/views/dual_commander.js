@@ -21,6 +21,12 @@ class DualCommanderView extends View {
         this.options = options;
 
         this.on("switch-mode", this.on_switch_mode, this);
+        this.panel_view_left.on(
+            "document-click", this.on_left_document_click, this
+        );
+        this.panel_view_right.on(
+            "document-click", this.on_right_document_click, this
+        );
     }
 
     initial_fetch(left_folder, right_folder) {
@@ -39,6 +45,24 @@ class DualCommanderView extends View {
         } else {
             this._initial_fetch_diff_folders(left_folder, right_folder);
         }
+    }
+
+    on_left_document_click(doc) {
+        this.on_document_click.apply(
+            this,
+            [this.panel_view_left, doc]
+        );
+    }
+
+    on_right_document_click(doc) {
+        this.on_document_click.apply(
+            this,
+            [this.panel_view_right, doc]
+        );
+    }
+
+    on_document_click(panel, doc) {
+        console.log(`document-click ${panel} ${doc}`);
     }
 
     on_switch_mode(mode, left_or_right) {
