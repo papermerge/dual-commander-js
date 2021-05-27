@@ -1,0 +1,90 @@
+import { View } from "@papermerge/symposium";
+import { CommanderView } from "@papermerge/commander";
+import { DocumentView } from "@papermerge/viewer";
+
+
+const LEFT = "left",
+    RIGHT = "right",
+    COMMANDER = "commander",
+    VIEWER = "viewer";
+
+
+
+class DualCommanderView extends View {
+
+    constructor(options={}) {
+        super();
+        this.commander_left = new CommanderView(
+            options['panel_left']
+        );
+        this.viewer_left = new DocumentView(
+            options['panel_left']
+        );
+        this.commander_right = new CommanderView(
+            options['panel_right']
+        );
+        this.viewer_right = new DocumentView(
+            options['panel_right']
+        );
+        this.panel_view_left = this.commander_left;
+        this.panel_view_right = this.commander_right;
+        this.options = options;
+
+        this.on("switch-mode", this.on_switch_mode, this);
+        this.panel_view_left.on(
+            "document-click", this.on_left_document_click, this
+        );
+        this.panel_view_right.on(
+            "document-click", this.on_right_document_click, this
+        );
+    }
+
+    open(left_folder, right_folder) {
+        this.panel_view_left.open(left_folder);
+        this.panel_view_right.open(right_folder);
+    }
+
+    on_left_document_click(doc) {
+        this.on_document_click.apply(
+            this,
+            [this.panel_view_left, doc]
+        );
+    }
+
+    on_right_document_click(doc) {
+        this.on_document_click.apply(
+            this,
+            [this.panel_view_right, doc]
+        );
+    }
+
+    on_document_click(panel, doc) {
+        console.log(`document-click ${panel} ${doc}`);
+    }
+
+    on_switch_mode(mode, left_or_right) {
+        let panel;
+
+        if (left_or_right == LEFT) {
+            panel = this.panel_view_left;
+        } else if (left_or_right == RIGHT) {
+            panel = this.panel_view_right;
+        }
+
+        if (mode == VIEWER) {
+            this.switch_to_viewer(panel);
+        } else if (mode == COMMANDER) {
+            this.switch_to_commander(panel);
+        }
+    }
+
+    switch_to_viewer(panel) {
+    }
+
+    switch_to_commander(panel) {
+
+    }
+
+}
+
+export { DualCommanderView };

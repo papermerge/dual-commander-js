@@ -1,5 +1,10 @@
 {
-  "name": "dual-commander",
+  "name": "@papermerge/dual-commander",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/papermerge/dual-commander-js.git"
+  },
   "keywords": [
     "papermerge",
     "dms",
@@ -8,7 +13,13 @@
     "document management system"
   ],
   "author": "Eugen Ciur <eugen@papermerge.com>",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
+  "main": "dual-commander/index.js",
+  "dependencies": {
+    "@papermerge/symposium": "^0.1.1",
+    "@papermerge/commander": "^0.1.0",
+    "@papermerge/viewer": "^0.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.13.14",
     "@babel/preset-env": "^7.13.12",

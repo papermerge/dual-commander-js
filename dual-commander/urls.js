@@ -1,6 +1,6 @@
 
-import {urlconf as commander_url_conf} from "document-commander";
-import {urlconf as viewer_url_conf} from "document-viewer";
+import {urlconf as commander_url_conf} from "@papermerge/commander";
+import {urlconf as viewer_url_conf} from "@papermerge/viewer";
 
 class UrlConf {
     /**

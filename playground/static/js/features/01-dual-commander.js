@@ -8,27 +8,11 @@ window.addEventListener('DOMContentLoaded', () => {
     DC.urlconf.prefix = '/01-dual-commander';
 
     dual_commander = new DC.DualCommanderView({
-        'panel_left': {
-            'panel': {
-                'el': document.querySelector('#panel_left'),
-                'loader_selector': '#loader_left'
-            },
-            'breadcrumb': {
-                'el': document.querySelector("#breadcrumb_left")
-            },
-        },
-        'panel_right': {
-            'panel': {
-                'el': document.querySelector('#panel_right'),
-                'loader_selector': '#loader_right'
-            },
-            'breadcrumb': {
-                'el': document.querySelector("#breadcrumb_right")
-            },
-        }
+        'panel_left': {'el': '#panel_left'},
+        'panel_right': {'el': '#panel_right'},
     });
 
-    dual_commander.initial_fetch();
+    dual_commander.open();
     dual_commander.panel_view_left.on('document_clicked', (doc) => {
         alert(`Panel Left: doc id=${doc.id} title=${doc.title} clicked`);
     });
@@ -45,9 +29,9 @@ window.addEventListener('DOMContentLoaded', () => {
             panel_l,
             row;
 
-        panel_r = document.querySelector('#browser_panel_right');
-        panel_r.style.display = "None";
-        panel_l = document.querySelector('#browser_panel_left');
+        dual_commander.panel_view_right.close();
+
+        panel_l = document.querySelector('#panel_left');
         panel_l.classList = ["col-12"];
         row = document.querySelector(".row");
         row.styles = "width: 100%";
@@ -61,9 +45,9 @@ window.addEventListener('DOMContentLoaded', () => {
             panel_l,
             row;
 
-        panel_r = document.querySelector('#browser_panel_right');
-        panel_r.style.display = "block";
-        panel_l = document.querySelector('#browser_panel_left');
+        dual_commander.panel_view_right.open();
+
+        panel_l = document.querySelector('#panel_left');
         panel_l.classList = ["col-6"];
         row = document.querySelector(".row");
         row.styles = "";
