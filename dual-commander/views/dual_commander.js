@@ -3,11 +3,10 @@ import { CommanderView } from "@papermerge/commander";
 import { DocumentView } from "@papermerge/viewer";
 
 
-const LEFT = "left",
-    RIGHT = "right",
-    COMMANDER = "commander",
-    VIEWER = "viewer";
-
+const LEFT_PANEL = "left",
+    RIGHT_PANEL = "right",
+    COMMANDER_MODE = "commander",
+    VIEWER_MODE = "viewer";
 
 
 class DualCommanderView extends View {
@@ -39,9 +38,34 @@ class DualCommanderView extends View {
         );
     }
 
-    open(left_folder, right_folder) {
-        this.panel_view_left.open(left_folder);
-        this.panel_view_right.open(right_folder);
+    open({left=false, right=false}) {
+        if (left) {
+            if (left['commander']) {
+                this.panel_view_left = this.commander_left;
+                this.panel_view_left.open(left['folder']);
+            } else if (left['viewer']) {
+                this.panel_view_left = this.viewer_left;
+                this.panel_view_left.open(left['doc']);
+            }
+        }
+
+        if (right) {
+            if (right['commander']) {
+                this.panel_view_right = this.commander_right;
+                this.panel_view_right.open(right['folder']);
+            } else if (right['viewer']) {
+                this.panel_view_right = this.viewer_right;
+                this.panel_view_right.open(right['doc']);
+            }
+        }
+    }
+
+    close({left, right}) {
+        if (left) {
+            this.panel_view_left.close();
+        } else if (right) {
+            this.panel_view_right.close();
+        }
     }
 
     on_left_document_click(doc) {
@@ -65,15 +89,15 @@ class DualCommanderView extends View {
     on_switch_mode(mode, left_or_right) {
         let panel;
 
-        if (left_or_right == LEFT) {
+        if (left_or_right == LEFT_PANEL) {
             panel = this.panel_view_left;
-        } else if (left_or_right == RIGHT) {
+        } else if (left_or_right == RIGHT_PANEL) {
             panel = this.panel_view_right;
         }
 
-        if (mode == VIEWER) {
+        if (mode == VIEWER_MODE) {
             this.switch_to_viewer(panel);
-        } else if (mode == COMMANDER) {
+        } else if (mode == COMMANDER_MODE) {
             this.switch_to_commander(panel);
         }
     }

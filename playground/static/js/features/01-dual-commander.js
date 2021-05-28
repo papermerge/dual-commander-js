@@ -12,7 +12,10 @@ window.addEventListener('DOMContentLoaded', () => {
         'panel_right': {'el': '#panel_right'},
     });
 
-    dual_commander.open();
+    dual_commander.open({
+        left: {commander: true},
+        right: {commander: true},
+    });
     dual_commander.panel_view_left.on('document_clicked', (doc) => {
         alert(`Panel Left: doc id=${doc.id} title=${doc.title} clicked`);
     });
@@ -29,7 +32,7 @@ window.addEventListener('DOMContentLoaded', () => {
             panel_l,
             row;
 
-        dual_commander.panel_view_right.close();
+        dual_commander.close({right: true});
 
         panel_l = document.querySelector('#panel_left');
         panel_l.classList = ["col-12"];
@@ -45,7 +48,9 @@ window.addEventListener('DOMContentLoaded', () => {
             panel_l,
             row;
 
-        dual_commander.panel_view_right.open();
+        dual_commander.open({
+            right: {commander: true},
+        });
 
         panel_l = document.querySelector('#panel_left');
         panel_l.classList = ["col-6"];
