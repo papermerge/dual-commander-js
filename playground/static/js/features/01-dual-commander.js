@@ -50,6 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         dual_commander.open({
             right: {commander: true},
+            left: {commander: true},
         });
 
         panel_l = document.querySelector('#panel_left');
