@@ -69,21 +69,12 @@ class DualCommanderView extends View {
     }
 
     on_left_document_click(doc) {
-        this.on_document_click.apply(
-            this,
-            [this.panel_view_left, doc]
-        );
+        this.panel_view_right.close();
+        this.panel_view_right = this.viewer_right
+        this.panel_view_right.open(doc);
     }
 
     on_right_document_click(doc) {
-        this.on_document_click.apply(
-            this,
-            [this.panel_view_right, doc]
-        );
-    }
-
-    on_document_click(panel, doc) {
-        console.log(`document-click ${panel} ${doc}`);
     }
 
     on_switch_mode(mode, left_or_right) {

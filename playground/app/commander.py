@@ -24,12 +24,21 @@ def _get_template_name(req):
     return f"{template_name}.html"
 
 
-def _static_folder_abs_path():
+def _folder_abs_path(folder_name):
     """
-    Returns absolute path to the static folder.
-    Static folder is same as the one used by the app.
+    Returns absolute path given folder name.
+
+    Example:
+
+    _folder_abs_path("static") => absolute path to static folder
+    _folder_abs_path("media")  => absolute path to media folder
     """
-    abs_path = os.path.join(os.path.dirname(__file__), '..', 'static')
+    abs_path = os.path.join(
+        os.path.dirname(__file__),
+        '..',
+        folder_name
+    )
+
     return abs_path
 
 
@@ -64,29 +73,63 @@ FOLDERS = {
 }
 
 # Mocks server resonses for GET /document/<int:document_id>
-DOCUMENTS = {
+DOCUMENT = {
     1: {
-        'document': {
-            'id': 1,
-            'title': 'payment_1.pdf'
-        },
-        'ancestor_nodes': []
+        'pages': [
+            {
+                'id': 1,
+                'page_num': 1
+            },
+            {
+                'id': 2,
+                'page_num': 2
+            },
+            {
+                'id': 3,
+                'page_num': 3
+            },
+            {
+                'id': 4,
+                'page_num': 4
+            }
+        ],  # pages
     },
     2: {
-        'document': {
-            'id': 2,
-            'title': 'payment_2.pdf'
-        },
-        'ancestor_nodes': []
-    },
-    5: {
-        'document': {
-            'id': 5,
-            'title': 'invoice.pdf'
-        },
-        'ancestor_nodes': []
+        'pages': [
+            {
+                'id': 5,
+                'page_num': 1
+            },
+        ],  # pages
     },
 }
+
+
+def page_svg(page_id):
+    """
+    Returns the SVG image (XML SVG content) of given page_id.
+
+    It reads SVG file from media folder.
+    """
+    document_id = "document-1"
+
+    if int(page_id) == 5:
+        document_id = "document-2"
+
+    abs_path = _folder_abs_path("media")
+    svg_file_path = os.path.join(
+        abs_path,
+        document_id,
+        f"page-{page_id}.svg"
+    )
+
+    # We have absolute path to the SVG file.
+    # Now just read the actual file content.
+    content = ""
+    with open(svg_file_path, "r") as f:
+        content = f.read()
+
+    return content
 
 
 def create_blueprint(name, request_delay=0):
@@ -107,7 +150,7 @@ def create_blueprint(name, request_delay=0):
         name,  # unique name
         name,  # import_name
         template_folder='templates',  # same folder as for the main app
-        static_folder=_static_folder_abs_path()  # same as for main app
+        static_folder=_folder_abs_path("static")  # same as for main app
 
     )
 
@@ -147,7 +190,7 @@ def create_blueprint(name, request_delay=0):
     def browser_document(node_id):
         time.sleep(request_delay)
         template_name = f"features/{_get_template_name(request)}"
-        document_dict = DOCUMENTS.get(node_id, None)
+        document_dict = DOCUMENT.get(node_id, None)
 
         if not document_dict:
             return render_template("404.html"), 404
@@ -160,5 +203,15 @@ def create_blueprint(name, request_delay=0):
             template_name,
             **document_dict
         )
+
+    @blueprint.route('/page/<int:page_id>')
+    def browser_page(page_id):
+
+        time.sleep(request_delay)
+        content_type = request.headers.get('Content-Type')
+        if content_type and content_type == 'image/svg+xml':
+            return page_svg(page_id)
+
+        return render_template("404.html"), 404
 
     return blueprint
