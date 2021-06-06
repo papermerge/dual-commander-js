@@ -16,9 +16,9 @@
   "license": "Apache-2.0",
   "main": "dual-commander/index.js",
   "dependencies": {
-    "@papermerge/symposium": "^0.1.1",
-    "@papermerge/commander": "^0.1.0",
-    "@papermerge/viewer": "^0.1.0"
+    "@papermerge/symposium": "^0.1.2",
+    "@papermerge/viewer": "^0.1.1",
+    "@papermerge/commander": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
@@ -51,6 +51,5 @@
     "style-loader": "^2.0.0",
     "webpack": "^5.36.2",
     "webpack-cli": "^4.6.0"
-  },
-  "dependencies": {}
+  }
 }
