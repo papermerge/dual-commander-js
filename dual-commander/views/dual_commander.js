@@ -36,6 +36,12 @@ class DualCommanderView extends View {
         this.panel_view_right.on(
             "document-click", this.on_right_document_click, this
         );
+        this.viewer_left.on(
+            "close-document", this.on_left_close_document, this
+        );
+        this.viewer_right.on(
+            "close-document", this.on_right_close_document, this
+        );
     }
 
     open({left=false, right=false}) {
@@ -45,7 +51,9 @@ class DualCommanderView extends View {
                 this.panel_view_left.open(left['folder']);
             } else if (left['viewer']) {
                 this.panel_view_left = this.viewer_left;
-                this.panel_view_left.open(left['doc']);
+                this.panel_view_left.open({
+                    doc: left['doc']
+                });
             }
         }
 
@@ -55,7 +63,9 @@ class DualCommanderView extends View {
                 this.panel_view_right.open(right['folder']);
             } else if (right['viewer']) {
                 this.panel_view_right = this.viewer_right;
-                this.panel_view_right.open(right['doc']);
+                this.panel_view_right.open({
+                    doc: right['doc']
+                });
             }
         }
     }
@@ -69,15 +79,42 @@ class DualCommanderView extends View {
     }
 
     on_left_document_click(doc) {
+        let breadcrumb;
+
+        breadcrumb = this.panel_view_right.breadcrumb;
+
+
         this.panel_view_right.close();
         this.panel_view_right = this.viewer_right
-        this.panel_view_right.open(doc);
+
+        breadcrumb.add(doc);
+        this.panel_view_right.open({doc, breadcrumb});
     }
 
     on_right_document_click(doc) {
+        let breadcrumb;
+
+        breadcrumb = this.panel_view_left.breadcrumb;
+
         this.panel_view_left.close();
         this.panel_view_left = this.viewer_left
-        this.panel_view_left.open(doc);
+
+        breadcrumb.add(doc);
+        this.panel_view_left.open({doc, breadcrumb});
+    }
+
+    on_right_close_document(node) {
+        console.log("Close the document");
+        this.panel_view_right.close();
+        this.panel_view_right = this.commander_right
+        this.panel_view_right.open(node);
+    }
+
+    on_left_close_document(node) {
+        console.log("Close the document");
+        this.panel_view_left.close();
+        this.panel_view_left = this.commander_left
+        this.panel_view_left.open(node);
     }
 
     on_switch_mode(mode, left_or_right) {

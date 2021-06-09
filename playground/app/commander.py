@@ -102,24 +102,27 @@ DOCUMENT = {
             },
         ],  # pages
     },
+    11: {
+        'pages': [
+            {
+                'id': 5,
+                'page_num': 1
+            },
+        ],  # pages
+    },
 }
 
 
-def page_svg(page_id):
+def document_page_svg(doc_id, page_id):
     """
     Returns the SVG image (XML SVG content) of given page_id.
 
     It reads SVG file from media folder.
     """
-    document_id = "document-1"
-
-    if int(page_id) == 5:
-        document_id = "document-2"
-
     abs_path = _folder_abs_path("media")
     svg_file_path = os.path.join(
         abs_path,
-        document_id,
+        f"document-{doc_id}",
         f"page-{page_id}.svg"
     )
 
@@ -197,20 +200,20 @@ def create_blueprint(name, request_delay=0):
 
         content_type = request.headers.get('Content-Type')
         if content_type and content_type == 'application/json':
-            return document_dict
+            return {'document': document_dict}
 
         return render_template(
             template_name,
             **document_dict
         )
 
-    @blueprint.route('/page/<int:page_id>')
-    def browser_page(page_id):
+    @blueprint.route('/document/<int:doc_id>/page/<int:page_id>')
+    def browser_page(doc_id, page_id):
 
         time.sleep(request_delay)
         content_type = request.headers.get('Content-Type')
         if content_type and content_type == 'image/svg+xml':
-            return page_svg(page_id)
+            return document_page_svg(doc_id, page_id)
 
         return render_template("404.html"), 404
 
