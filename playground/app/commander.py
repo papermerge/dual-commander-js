@@ -46,13 +46,13 @@ def _folder_abs_path(folder_name):
 FOLDERS = {
     -1: {
         'current_nodes': [
-            {'title': 'invoice.pdf', 'id': 5, 'model': 'document'},
-            {'title': 'payment_1.pdf', 'id': 1, 'model': 'document'},
-            {'title': 'payment_2.pdf', 'id': 2, 'model': 'document'},
-            {'title': 'My Documents', 'id': 3, 'model': 'folder'},
+            {'title': 'invoice.pdf', 'id': 1, 'model': 'document'},
+            {'title': 'payment_1.pdf', 'id': 2, 'model': 'document'},
+            {'title': 'payment_2.pdf', 'id': 3, 'model': 'document'},
+            {'title': 'My Documents', 'id': 4, 'model': 'folder'},
         ]
     },
-    3: {
+    4: {
         # notice 'model' attribute which specifies type of node either document
         # or folder. There can be only two types of nodes: 'document' and
         # 'folder'
@@ -102,10 +102,114 @@ DOCUMENT = {
             },
         ],  # pages
     },
+    3: {
+        'pages': [
+            {
+                'id': 31,
+                'page_num': 1
+            },
+            {
+                'id': 32,
+                'page_num': 2
+            },
+            {
+                'id': 33,
+                'page_num': 3
+            },
+            {
+                'id': 34,
+                'page_num': 4
+            },
+            {
+                'id': 35,
+                'page_num': 5
+            },
+            {
+                'id': 36,
+                'page_num': 6
+            },
+            {
+                'id': 37,
+                'page_num': 7
+            }
+
+
+        ],  # pages
+    },
+    5: {
+        'pages': [
+            {
+                'id': 51,
+                'page_num': 1
+            },
+            {
+                'id': 52,
+                'page_num': 2
+            },
+            {
+                'id': 53,
+                'page_num': 3
+            },
+            {
+                'id': 54,
+                'page_num': 4
+            },
+        ],  # pages
+    },
+    6: {
+        'pages': [
+            {
+                'id': 61,
+                'page_num': 1
+            }
+        ],
+    },
+    8: {
+        'pages': [
+            {
+                'id': 81,
+                'page_num': 1
+            }, {
+                'id': 82,
+                'page_num': 2
+            }, {
+                'id': 83,
+                'page_num': 3
+            }
+        ],
+    },
+    9: {
+        'pages': [
+            {
+                'id': 91,
+                'page_num': 1
+            }, {
+                'id': 92,
+                'page_num': 2
+            }, {
+                'id': 93,
+                'page_num': 3
+            }, {
+                'id': 94,
+                'page_num': 4
+            }, {
+                'id': 95,
+                'page_num': 5
+            }
+        ],
+    },
+    10: {
+        'pages': [
+            {
+                'id': 101,
+                'page_num': 1
+            },
+        ],  # pages
+    },
     11: {
         'pages': [
             {
-                'id': 5,
+                'id': 111,
                 'page_num': 1
             },
         ],  # pages

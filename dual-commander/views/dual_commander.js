@@ -48,7 +48,7 @@ class DualCommanderView extends View {
         if (left) {
             if (left['commander']) {
                 this.panel_view_left = this.commander_left;
-                this.panel_view_left.open(left['folder']);
+                this.panel_view_left.open({folder: left['folder']});
             } else if (left['viewer']) {
                 this.panel_view_left = this.viewer_left;
                 this.panel_view_left.open({
@@ -60,7 +60,7 @@ class DualCommanderView extends View {
         if (right) {
             if (right['commander']) {
                 this.panel_view_right = this.commander_right;
-                this.panel_view_right.open(right['folder']);
+                this.panel_view_right.open({folder: right['folder']});
             } else if (right['viewer']) {
                 this.panel_view_right = this.viewer_right;
                 this.panel_view_right.open({
@@ -79,9 +79,16 @@ class DualCommanderView extends View {
     }
 
     on_left_document_click(doc) {
+        /*
+        Document icon was clicked in left pane commander.
+
+        Will get current (i.e. left panel commander's) breadcrumb, add
+        to it clicked document's title and open clicked document
+        (together with breadcrumb) in right panel.
+        */
         let breadcrumb;
 
-        breadcrumb = this.panel_view_right.breadcrumb;
+        breadcrumb = this.panel_view_left.breadcrumb.slice();
 
 
         this.panel_view_right.close();
@@ -92,9 +99,16 @@ class DualCommanderView extends View {
     }
 
     on_right_document_click(doc) {
+        /*
+        Document icon was clicked in right pane commander.
+
+        Will get current (i.e. right panel commander's) breadcrumb, add
+        to it clicked document's title and open clicked document
+        (together with breadcrumb) in left panel.
+        */
         let breadcrumb;
 
-        breadcrumb = this.panel_view_left.breadcrumb;
+        breadcrumb = this.panel_view_right.breadcrumb.slice();
 
         this.panel_view_left.close();
         this.panel_view_left = this.viewer_left
@@ -104,17 +118,30 @@ class DualCommanderView extends View {
     }
 
     on_right_close_document(node) {
-        console.log("Close the document");
+        let breadcrumb;
+
+        breadcrumb = this.panel_view_right.breadcrumb.slice();
+        breadcrumb.change_parent(node);
+
         this.panel_view_right.close();
         this.panel_view_right = this.commander_right
-        this.panel_view_right.open(node);
+        this.panel_view_right.open({
+            folder: node, breadcrumb: breadcrumb
+        });
     }
 
     on_left_close_document(node) {
-        console.log("Close the document");
+        let breadcrumb;
+
+        breadcrumb = this.panel_view_left.breadcrumb.slice();
+        breadcrumb.change_parent(node);
+
         this.panel_view_left.close();
         this.panel_view_left = this.commander_left
-        this.panel_view_left.open(node);
+        this.panel_view_left.open({
+            folder: node,
+            breadcrumb: breadcrumb
+        });
     }
 
     on_switch_mode(mode, left_or_right) {
@@ -132,14 +159,6 @@ class DualCommanderView extends View {
             this.switch_to_commander(panel);
         }
     }
-
-    switch_to_viewer(panel) {
-    }
-
-    switch_to_commander(panel) {
-
-    }
-
 }
 
 export { DualCommanderView };
