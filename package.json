@@ -1,6 +1,6 @@
 {
   "name": "@papermerge/dual-commander",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/papermerge/dual-commander-js.git"
@@ -16,9 +16,6 @@
   "license": "Apache-2.0",
   "main": "dual-commander/index.js",
   "dependencies": {
-    "@papermerge/symposium": "^0.1.2",
-    "@papermerge/viewer": "^0.1.1",
-    "@papermerge/commander": "^0.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
@@ -27,6 +24,9 @@
     "@types/chai": "^4.2.16",
     "@types/mocha": "^8.2.2",
     "@types/nunjucks": "^3.1.4",
+    "@papermerge/symposium": "^0.2.0",
+    "@papermerge/viewer": "^0.2.0",
+    "@papermerge/commander": "^0.2.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.2",
     "babel-preset": "^1.1.7",
