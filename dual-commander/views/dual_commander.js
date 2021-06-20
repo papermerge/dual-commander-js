@@ -36,6 +36,8 @@ class DualCommanderView extends View {
         this.panel_view_right.on(
             "document-click", this.on_right_document_click, this
         );
+        this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
+        this.on_anypanel("switch-2-single", this.on_switch_2_single);
         this.viewer_left.on(
             "close-document", this.on_left_close_document, this
         );
@@ -76,6 +78,23 @@ class DualCommanderView extends View {
         } else if (right) {
             this.panel_view_right.close();
         }
+    }
+
+    on_anypanel(name, callback, ...args) {
+        this.panel_view_right.on(
+            name,
+            callback,
+            this,
+            this.panel_view_right,
+            this.panel_view_left
+        );
+        this.panel_view_left.on(
+            name,
+            callback,
+            this,
+            this.panel_view_left,
+            this.panel_view_right
+        );
     }
 
     on_left_document_click(doc) {
@@ -144,20 +163,18 @@ class DualCommanderView extends View {
         });
     }
 
-    on_switch_mode(mode, left_or_right) {
-        let panel;
+    on_switch_2_single(receiver_panel, other_panel) {
+        console.log("switch_2_single");
+        receiver_panel.close({display: false});
+        other_panel.trigger("mode-button-dual");
+        other_panel.fullscreen();
+    }
 
-        if (left_or_right == LEFT_PANEL) {
-            panel = this.panel_view_left;
-        } else if (left_or_right == RIGHT_PANEL) {
-            panel = this.panel_view_right;
-        }
-
-        if (mode == VIEWER_MODE) {
-            this.switch_to_viewer(panel);
-        } else if (mode == COMMANDER_MODE) {
-            this.switch_to_commander(panel);
-        }
+    on_switch_2_dual(receiver_panel, other_panel) {
+        console.log("switch_2_dual");
+        other_panel.open();
+        other_panel.halfscreen();
+        receiver_panel.halfscreen();
     }
 }
 
