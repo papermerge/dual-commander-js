@@ -1,5 +1,9 @@
 import { View } from "@papermerge/symposium";
-import { CommanderView } from "@papermerge/commander";
+import {
+    CommanderView,
+    OpenModeView,
+    PanelModeView
+} from "@papermerge/commander";
 import { DocumentView } from "@papermerge/viewer";
 
 
@@ -30,20 +34,10 @@ class DualCommanderView extends View {
         this.options = options;
 
         this.on("switch-mode", this.on_switch_mode, this);
-        this.panel_view_left.on(
-            "document-click", this.on_left_document_click, this
-        );
-        this.panel_view_right.on(
-            "document-click", this.on_right_document_click, this
-        );
+        this.on_anypanel("document-click", this.on_document_clicked);
+        this.on_anyviewer("close-document", this.on_close_document);
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
-        this.viewer_left.on(
-            "close-document", this.on_left_close_document, this
-        );
-        this.viewer_right.on(
-            "close-document", this.on_right_close_document, this
-        );
     }
 
     open({left=false, right=false}) {
@@ -86,92 +80,111 @@ class DualCommanderView extends View {
             callback,
             this,
             this.panel_view_right,
-            this.panel_view_left
+            this.panel_view_left,
+            this.viewer_right,
+            this.viewer_left
         );
         this.panel_view_left.on(
             name,
             callback,
             this,
             this.panel_view_left,
-            this.panel_view_right
+            this.panel_view_right,
+            this.viewer_left,
+            this.viewer_right
         );
     }
 
-    on_left_document_click(doc) {
-        /*
-        Document icon was clicked in left pane commander.
-
-        Will get current (i.e. left panel commander's) breadcrumb, add
-        to it clicked document's title and open clicked document
-        (together with breadcrumb) in right panel.
-        */
-        let breadcrumb;
-
-        breadcrumb = this.panel_view_left.breadcrumb.slice();
-
-
-        this.panel_view_right.close();
-        this.panel_view_right = this.viewer_right
-
-        breadcrumb.add(doc);
-        this.panel_view_right.open({doc, breadcrumb});
+    on_anyviewer(name, callback, ...args) {
+        this.viewer_right.on(
+            name,
+            callback,
+            this,
+            this.panel_view_right,
+            this.panel_view_left,
+            this.viewer_right,
+            this.viewer_left
+        );
+        this.viewer_left.on(
+            name,
+            callback,
+            this,
+            this.panel_view_left,
+            this.panel_view_right,
+            this.viewer_left,
+            this.viewer_right
+        );
     }
 
-    on_right_document_click(doc) {
-        /*
-        Document icon was clicked in right pane commander.
-
-        Will get current (i.e. right panel commander's) breadcrumb, add
-        to it clicked document's title and open clicked document
-        (together with breadcrumb) in left panel.
-        */
+    on_close_document(
+        node,
+        receiver_panel,
+        other_panel,
+        receiver_viewer,
+        other_viewer
+    ) {
         let breadcrumb;
 
-        breadcrumb = this.panel_view_right.breadcrumb.slice();
-
-        this.panel_view_left.close();
-        this.panel_view_left = this.viewer_left
-
-        breadcrumb.add(doc);
-        this.panel_view_left.open({doc, breadcrumb});
-    }
-
-    on_right_close_document(node) {
-        let breadcrumb;
-
-        breadcrumb = this.panel_view_right.breadcrumb.slice();
+        breadcrumb = receiver_viewer.breadcrumb.slice();
         breadcrumb.change_parent(node);
 
-        this.panel_view_right.close();
-        this.panel_view_right = this.commander_right
-        this.panel_view_right.open({
+        receiver_viewer.close();
+        receiver_viewer = receiver_panel
+        receiver_viewer.open({
             folder: node, breadcrumb: breadcrumb
         });
     }
 
-    on_left_close_document(node) {
+    on_document_clicked(
+        doc,
+        receiver_panel,
+        other_panel,
+        receiver_viewer,
+        other_viewer
+    ) {
+        /*
+        Document icon was clicked in receiver panel.
+
+        Will get current (i.e. receiver's panel commander's) breadcrumb, add
+        to it clicked document's title and open clicked document
+        (together with breadcrumb) either inline or in other panel.
+        */
         let breadcrumb;
 
-        breadcrumb = this.panel_view_left.breadcrumb.slice();
-        breadcrumb.change_parent(node);
+        // make a copy of breadcrumb
+        breadcrumb = receiver_panel.breadcrumb.slice();
 
-        this.panel_view_left.close();
-        this.panel_view_left = this.commander_left
-        this.panel_view_left.open({
-            folder: node,
-            breadcrumb: breadcrumb
-        });
+        if (receiver_panel.open_mode == OpenModeView.OTHER_PANEL) {
+            // open document in other panel
+            if (other_panel.is_hidden()) {
+                // switch to dual mode first
+                other_panel.open();
+                other_panel.halfscreen();
+                receiver_panel.halfscreen();
+            } else {
+                other_panel.close();
+            }
+            other_panel = other_viewer
+
+            breadcrumb.add(doc);
+            other_panel.open({doc, breadcrumb});
+        } else if (receiver_panel.open_mode == OpenModeView.INLINE) {
+            // open document inline
+            receiver_panel.close();
+            receiver_panel = receiver_viewer
+
+            breadcrumb.add(doc);
+            receiver_panel.open({doc, breadcrumb});
+        }
     }
 
     on_switch_2_single(receiver_panel, other_panel) {
-        console.log("switch_2_single");
         receiver_panel.close({display: false});
         other_panel.trigger("mode-button-dual");
         other_panel.fullscreen();
     }
 
     on_switch_2_dual(receiver_panel, other_panel) {
-        console.log("switch_2_dual");
         other_panel.open();
         other_panel.halfscreen();
         receiver_panel.halfscreen();
