@@ -5,6 +5,7 @@ import {
     PanelModeView
 } from "@papermerge/commander";
 import { DocumentView } from "@papermerge/viewer";
+import { DualHistory } from "../history";
 
 
 const LEFT_PANEL = "left",
@@ -32,12 +33,89 @@ class DualCommanderView extends View {
         this.panel_view_left = this.commander_left;
         this.panel_view_right = this.commander_right;
         this.options = options;
+        // pushes history states of the panels (left/right/commander/viewer)
+        this.dual_history = new DualHistory();
 
         this.on("switch-mode", this.on_switch_mode, this);
         this.on_anypanel("document-click", this.on_document_clicked);
         this.on_anyviewer("close-document", this.on_close_document);
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
+
+        // update history/pushState => updates window.location
+        this.commander_left.on(
+            "folder-click",
+            this.on_folder_click_in_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "document-click",
+            this.on_document_click_in_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "close",
+            this.on_close_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "open",
+            this.on_open_commander_left,
+            this
+        );
+        // ---
+        this.commander_right.on(
+            "folder-click",
+            this.on_folder_click_in_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "document-click",
+            this.on_document_click_in_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "close",
+            this.on_close_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "open",
+            this.on_open_commander_right,
+            this
+        );
+        // ---
+        this.viewer_left.on(
+            "folder-click",
+            this.on_folder_click_in_viewer_left,
+            this
+        );
+        this.viewer_left.on(
+            "close",
+            this.on_close_viewer_left,
+            this
+        );
+        this.viewer_left.on(
+            "open",
+            this.on_open_viewer_left,
+            this
+        );
+        // --
+        this.viewer_right.on(
+            "folder-click",
+            this.on_folder_click_in_viewer_right,
+            this
+        );
+        this.viewer_right.on(
+            "close",
+            this.on_close_viewer_right,
+            this
+        );
+        this.viewer_right.on(
+            "open",
+            this.on_open_viewer_right,
+            this
+        );
     }
 
     open({left=false, right=false}) {
@@ -188,6 +266,48 @@ class DualCommanderView extends View {
         other_panel.open();
         other_panel.halfscreen();
         receiver_panel.halfscreen();
+    }
+    // ---
+    on_folder_click_in_commander_left(folder) {
+    }
+
+    on_document_click_in_commander_left(doc) {
+    }
+
+    on_close_commander_left() {
+    }
+
+    on_open_commander_left() {
+    }
+    // ---
+    on_folder_click_in_commander_right(folder) {
+    }
+
+    on_document_click_in_commander_right(doc) {
+    }
+
+    on_close_commander_right() {
+    }
+
+    on_open_commander_right() {
+    }
+    // ---
+    on_folder_click_in_viewer_left(folder){
+    }
+
+    on_close_viewer_left() {
+    }
+
+    on_open_viewer_left() {
+    }
+    // ---
+    on_folder_click_in_viewer_right(folder){
+    }
+
+    on_close_viewer_right() {
+    }
+
+    on_open_viewer_right() {
     }
 }
 
