@@ -5,12 +5,20 @@ import { urlconf } from "./urls";
 
 class DualHistory {
     /*
-        Saves states of both panel in window.history.
+        Saves states of both panels in window.history.
 
-        Has only one public attribute `url`.
+        The only relevant public attribute is `url`.
         `url` attribute corresponds to the url argument from
         window.history.pushState(obj, title, url) method.
         See https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+
+        Both panels' state (i.e. state of left and right panels) is
+        fully represented by the url.
+        url = <left-panel-state> ? right=<right-panel-state>
+
+        where <left-panel-state> or <right-panel-state> can be either
+        * /core/folder/<folder-id> - for commander panels
+        * /core/viwer/<document-id>  - for viewer panel
     */
     constructor({left=false, right=false}={}) {
         if (left) {
@@ -23,6 +31,12 @@ class DualHistory {
     }
 
     get url() {
+        /*
+            url = this._path ? params
+
+        the '?' characters is present only if params is non
+        empty.
+        */
         if (this.params) {
             return `${this._path}?${this.params}`;
         }
