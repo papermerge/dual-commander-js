@@ -21,11 +21,11 @@ describe("test/test_dual_history.js", () => {
         // user clicks on folder 4
         dual_history.push({
             left: {
-                commander: true
+                commander: true,
                 folder: {id: 4}
             }
         });
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
             "/core/folder/4/"
         );
@@ -33,11 +33,11 @@ describe("test/test_dual_history.js", () => {
         // user clicks on folder 9
         dual_history.push({
             left: {
-                commander: true
+                commander: true,
                 folder: {id: 9}
             }
         });
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
             "/core/folder/9/"
         );
@@ -47,7 +47,7 @@ describe("test/test_dual_history.js", () => {
         // document will open viewer in panel right
         dual_history.push({
             left: {
-                commander: true
+                commander: true,
                 folder: {id: 9}
             },
             right: {
@@ -55,7 +55,7 @@ describe("test/test_dual_history.js", () => {
                 doc: {id: 7}
             }
         });
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
             "/core/folder/9/?right=/core/document/7/"
         );
@@ -73,10 +73,10 @@ describe("test/test_dual_history.js", () => {
                 folder: {id: 3}
             },
         });
-        assert.isEqual({
+        assert.equal(
             dual_history.url,
             "/core/folder/3/"
-        });
+        );
         // assuming that on document click the document will
         // open in right panel
         dual_history.push({
@@ -85,7 +85,7 @@ describe("test/test_dual_history.js", () => {
                 doc: {id: 5}
             }
         })
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
             "/core/folder/3/?right=/core/document/5/"
         );
@@ -97,7 +97,7 @@ describe("test/test_dual_history.js", () => {
                 doc: {id: 7}
             }
         });
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
             "/core/document/7/?right=/core/document/5/"
         )
@@ -106,9 +106,10 @@ describe("test/test_dual_history.js", () => {
         dual_history.push({
             left: false
         });
-        assert.isEqual(
+        assert.equal(
             dual_history.url,
-            "/core/document/5/"
+            "/core/document/5/",
+            "After close there should be only one viewer panel"
         );
     });
 
@@ -130,26 +131,24 @@ describe("test/test_dual_history.js", () => {
         });
         // state with two commanders open, both commander
         // panel have root folder opened
-        assert.isEqual(
+        assert.equal(
             dual_history1.url,
             "/core/folder/?right=/core/folder/"
         );
 
         dual_history2 = new DualHistory({
             left: {
-                viewer: {
-                    doc: {id: 13}
-                }
+                viewer: true,
+                doc: {id: 13}
             },
             right: {
-                viewer: {
-                    doc: {id: 13}
-                }
+                viewer: true,
+                doc: {id: 13}
             }
         });
         // state with two viewers open, both viewers show
         // same document 13
-        assert.isEqual(
+        assert.equal(
             dual_history2.url,
             "/core/document/13/?right=/core/document/13/"
         );
