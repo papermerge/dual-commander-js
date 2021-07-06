@@ -20,7 +20,7 @@ class DualHistory {
         * /core/folder/<folder-id> - for commander panels
         * /core/viwer/<document-id>  - for viewer panel
     */
-    constructor({left=false, right=false}={}) {
+    constructor({left, right}={}) {
         if (left) {
             this._path = this._build_path(left);
         }
@@ -81,10 +81,10 @@ class DualHistory {
     }
 
     _build_path({
-        viewer=false,
-        commander=false,
-        folder=undefined,
-        doc=undefined
+        viewer,
+        commander,
+        folder,
+        doc
     }) {
         let result;
 
@@ -104,10 +104,10 @@ class DualHistory {
     }
 
     _build_params({
-        viewer=false,
-        commander=false,
-        folder=undefined,
-        doc=undefined
+        viewer,
+        commander,
+        folder,
+        doc
     }) {
         let param;
 
