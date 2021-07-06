@@ -23,20 +23,40 @@ class DualHistory {
     }
 
     get url() {
-        if (this._params) {
-            return `${this._path}?${this._params}`;
+        if (this.params) {
+            return `${this._path}?${this.params}`;
         }
 
         return this._path;
     }
 
+    get params() {
+        if (this._params) {
+            return `right=${this._params}`;
+        }
+    }
+
     push({left, right}) {
         if (left) {
             this._path = this._build_path(left);
+        } else if (left == false) {
+            // this means user closed left panel
+            this._path = this._params;
+            this._params = undefined;
+            window.history.pushState(
+                {left, right},
+                undefined,
+                this.url
+            );
+            return;
         }
 
         if (right) {
             this._params = this._build_params(right);
+        } else if (right == false ){
+            // this means user closed
+            // right panel
+            this._params = undefined;
         }
 
         window.history.pushState(
@@ -75,7 +95,7 @@ class DualHistory {
         folder=undefined,
         doc=undefined
     }) {
-        let param, result;
+        let param;
 
         if (viewer) {
             param = urlconf.document_url(doc);
@@ -86,8 +106,7 @@ class DualHistory {
         }
 
         if (param) {
-            result = `right=${param}`;
-            return result;
+            return param;
         }
 
         throw new ValueError("Invalid param: viewer and commander missing");
