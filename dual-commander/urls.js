@@ -24,6 +24,14 @@ class UrlConf {
     get prefix() {
         return this._prefix;
     }
+
+    folder_url(folder) {
+        return commander_url_conf.folder_url(folder);
+    }
+
+    document_url(doc) {
+        return viewer_url_conf.document_url(doc);
+    }
 }
 
 // there is only one UrlConf instance
