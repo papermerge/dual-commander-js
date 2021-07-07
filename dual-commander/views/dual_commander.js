@@ -5,7 +5,7 @@ import {
     PanelModeView
 } from "@papermerge/commander";
 import { DocumentView } from "@papermerge/viewer";
-import { DualHistory } from "../history";
+import { DualHistory } from "../dual_history";
 
 
 const LEFT_PANEL = "left",
@@ -270,90 +270,65 @@ class DualCommanderView extends View {
     // ---
     on_folder_click_in_commander_left(folder) {
         this.dual_history.push({
-            side: DualHistory.LEFT,
-            obj: {type: DualHistory.FOLDER, id: folder.id},
-            panel: DualHistory.COMMANDER
+            left: {
+                folder: folder,
+                commander: true
+            }
         });
     }
 
     on_document_click_in_commander_left(doc) {
-        this.dual_history.push({
-            side: DualHistory.LEFT,
-            obj: {type: DualHistory.DOC, id: doc.id},
-            panel: DualHistory.COMMANDER
-        });
     }
 
     on_close_commander_left() {
         this.dual_history.push({
-            side: DualHistory.LEFT,
-            panel: DualHistory.COMMANDER,
-            action: DualHistory.CLOSE
+            left: false
         });
     }
 
-    on_open_commander_left() {
+    on_open_commander_left(folder) {
         this.dual_history.push({
-            side: DualHistory.LEFT,
-            panel: DualHistory.COMMANDER,
-            action: DualHistory.OPEN
+            left: {
+                folder: folder,
+                commander: true
+            }
         });
     }
     // ---
     on_folder_click_in_commander_right(folder) {
         this.dual_history.push({
-            side: DualHistory.RIGHT,
-            obj: {type: DualHistory.FOLDER, id: folder.id},
-            panel: DualHistory.COMMANDER
+            right: {
+                folder: folder,
+                commander: true
+            }
         });
     }
 
     on_document_click_in_commander_right(doc) {
-        this.dual_history.push({
-            side: DualHistory.RIGHT,
-            obj: {type: DualHistory.DOC, id: doc.id},
-            panel: DualHistory.COMMANDER
-        });
     }
 
     on_close_commander_right() {
         this.dual_history.push({
-            side: DualHistory.RIGHT,
-            panel: DualHistory.COMMANDER,
-            action: DualHistory.CLOSE
+            right: false
         });
     }
 
-    on_open_commander_right() {
+    on_open_commander_right(folder) {
         this.dual_history.push({
-            side: DualHistory.RIGHT,
-            panel: DualHistory.COMMANDER,
-            action: DualHistory.OPEN
+            right: {
+                folder: folder,
+                commander: true
+            }
         });
     }
     // ---
     on_folder_click_in_viewer_left(folder){
-        this.dual_history.push({
-            side: DualHistory.LEFT,
-            obj: {type: DualHistory.FOLDER, id: folder.id},
-            panel: DualHistory.VIEWER
-        });
     }
 
     on_close_viewer_left() {
-        this.dual_history.push({
-            side: DualHistory.LEFT,
-            panel: DualHistory.VIEWER,
-            action: DualHistory.CLOSE
-        });
     }
 
     on_open_viewer_left() {
-        this.dual_history.push({
-            side: DualHistory.LEFT,
-            panel: DualHistory.VIEWER,
-            action: DualHistory.OPEN
-        });
     }
     // ---
     on_folder_click_in_viewer_right(folder) {

@@ -1,4 +1,4 @@
-import { ValueError } from "@papermerge/symposium";
+import { exceptions } from "@papermerge/symposium";
 
 import { urlconf } from "./urls";
 
@@ -51,6 +51,11 @@ class DualHistory {
     }
 
     push({left, right}) {
+        /*
+            When left or right are specifically set to
+            `false`, it signals that users closes respective
+            panel
+        */
         if (left) {
             this._path = this._build_path(left);
         } else if (left == false) {
@@ -58,8 +63,9 @@ class DualHistory {
             this._path = this._params;
             this._params = undefined;
             window.history.pushState(
-                {left, right},
-                undefined,
+                {}, // not used
+                // browsers ignore this arg
+                "Papermerge",
                 this.url
             );
             return;
@@ -74,8 +80,9 @@ class DualHistory {
         }
 
         window.history.pushState(
-            {left, right},
-            undefined,
+            {}, // not used
+            // browsers ignore this argument
+            "Papermerge",
             this.url
         );
     }
@@ -100,7 +107,9 @@ class DualHistory {
             return result;
         }
 
-        throw new ValueError("Invalid path: viewer and commander missing");
+        throw new exceptions.ValueError(
+            "Invalid path: viewer and commander missing"
+        );
     }
 
     _build_params({
@@ -123,7 +132,9 @@ class DualHistory {
             return param;
         }
 
-        throw new ValueError("Invalid param: viewer and commander missing");
+        throw new exceptions.ValueError(
+            "Invalid param: viewer and commander missing"
+        );
     }
 }
 
