@@ -42,80 +42,9 @@ class DualCommanderView extends View {
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
 
-        // update history/pushState => updates window.location
-        this.commander_left.on(
-            "folder-click",
-            this.on_folder_click_in_commander_left,
-            this
-        );
-        this.commander_left.on(
-            "document-click",
-            this.on_document_click_in_commander_left,
-            this
-        );
-        this.commander_left.on(
-            "close",
-            this.on_close_commander_left,
-            this
-        );
-        this.commander_left.on(
-            "open",
-            this.on_open_commander_left,
-            this
-        );
-        // ---
-        this.commander_right.on(
-            "folder-click",
-            this.on_folder_click_in_commander_right,
-            this
-        );
-        this.commander_right.on(
-            "document-click",
-            this.on_document_click_in_commander_right,
-            this
-        );
-        this.commander_right.on(
-            "close",
-            this.on_close_commander_right,
-            this
-        );
-        this.commander_right.on(
-            "open",
-            this.on_open_commander_right,
-            this
-        );
-        // ---
-        this.viewer_left.on(
-            "folder-click",
-            this.on_folder_click_in_viewer_left,
-            this
-        );
-        this.viewer_left.on(
-            "close",
-            this.on_close_viewer_left,
-            this
-        );
-        this.viewer_left.on(
-            "open",
-            this.on_open_viewer_left,
-            this
-        );
-        // --
-        this.viewer_right.on(
-            "folder-click",
-            this.on_folder_click_in_viewer_right,
-            this
-        );
-        this.viewer_right.on(
-            "close",
-            this.on_close_viewer_right,
-            this
-        );
-        this.viewer_right.on(
-            "open",
-            this.on_open_viewer_right,
-            this
-        );
+        if (options['dual_history'] === true) {
+            this.enable_dual_history();
+        }
     }
 
     open({left=false, right=false}) {
@@ -338,6 +267,87 @@ class DualCommanderView extends View {
     }
 
     on_open_viewer_right() {
+    }
+
+    enable_dual_history() {
+        /*
+            Will listen to panels events and update window.location
+            accordingly
+        */
+        // update history/pushState => updates window.location
+        this.commander_left.on(
+            "folder-click",
+            this.on_folder_click_in_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "document-click",
+            this.on_document_click_in_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "close",
+            this.on_close_commander_left,
+            this
+        );
+        this.commander_left.on(
+            "open",
+            this.on_open_commander_left,
+            this
+        );
+        // ---
+        this.commander_right.on(
+            "folder-click",
+            this.on_folder_click_in_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "document-click",
+            this.on_document_click_in_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "close",
+            this.on_close_commander_right,
+            this
+        );
+        this.commander_right.on(
+            "open",
+            this.on_open_commander_right,
+            this
+        );
+        // ---
+        this.viewer_left.on(
+            "folder-click",
+            this.on_folder_click_in_viewer_left,
+            this
+        );
+        this.viewer_left.on(
+            "close",
+            this.on_close_viewer_left,
+            this
+        );
+        this.viewer_left.on(
+            "open",
+            this.on_open_viewer_left,
+            this
+        );
+        // --
+        this.viewer_right.on(
+            "folder-click",
+            this.on_folder_click_in_viewer_right,
+            this
+        );
+        this.viewer_right.on(
+            "close",
+            this.on_close_viewer_right,
+            this
+        );
+        this.viewer_right.on(
+            "open",
+            this.on_open_viewer_right,
+            this
+        );
     }
 }
 

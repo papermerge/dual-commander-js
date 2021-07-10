@@ -13,6 +13,14 @@ global_context = {
             'url': '/01-dual-commander',
             'title': '01 - Dual Commander'
         },
+        {
+            'url': '/02-open-at-my-documents-a',
+            'title': '02 - Open at My Documents (Part A)'
+        },
+        {
+            'url': '/03-open-at-my-documents-b',
+            'title': '03 - Open at My Documents (Part B)'
+        },
     ]
 }
 
@@ -61,6 +69,9 @@ FOLDERS = {
             {'title': 'mydoc2.pdf', 'id': 6, 'model': 'document'},
             {'title': 'Some Folder', 'id': 7, 'model': 'folder'},
         ],
+        'breadcrumb': [
+            {'id': 4, 'title': 'My Documents'}
+        ]
     },
     7: {
         'current_nodes': [
@@ -69,6 +80,10 @@ FOLDERS = {
             {'title': 'inv3.pdf', 'id': 10, 'model': 'document'},
             {'title': 'inv4.pdf', 'id': 11, 'model': 'document'},
         ],
+        'breadcrumb': [
+            {'id': 4, 'title': 'My Documents'},
+            {'id': 7, 'title': 'Some Folder'}
+        ]
     }
 }
 

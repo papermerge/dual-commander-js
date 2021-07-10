@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block extra_js %}
+  <script type="module" src="static/js/features/03-open-at-my-documents-b.js"></script>
+{% endblock %}
+
+{% block content %}
+  <main class="container py-3">
+    <h1>Open at My Documents (Part B)</h1>
+    <p>
+      Opens dual commander in dual panel mode with "My Documents" on the left side, and "Some Folder" being current node on the right side.
+    </p>
+    <div class="showroom dual-panel container-fluid">
+        <div class="row"> <!-- row -->
+            <div class="col-6" id="panel_left">
+            </div>
+            <div class="col-6" id="panel_right">
+            </div>  <!-- row -->
+        </div>
+    </div>
+  </main>
+{% endblock %}

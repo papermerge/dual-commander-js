@@ -31,6 +31,14 @@ def create_app(delay_seconds=0, no_cache=False):
         create_blueprint('01-dual-commander', request_delay=0.1),
         url_prefix='/01-dual-commander'
     )
+    app.register_blueprint(
+        create_blueprint('02-open-at-my-documents-a', request_delay=0),
+        url_prefix='/02-open-at-my-documents-a'
+    )
+    app.register_blueprint(
+        create_blueprint('03-open-at-my-documents-b', request_delay=0),
+        url_prefix='/03-open-at-my-documents-b'
+    )
 
     @app.route('/')
     def index():

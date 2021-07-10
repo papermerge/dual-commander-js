@@ -10,6 +10,8 @@ window.addEventListener('DOMContentLoaded', () => {
     dual_commander = new DC.DualCommanderView({
         'panel_left': {'el': '#panel_left'},
         'panel_right': {'el': '#panel_right'},
+        // we start here with dual history disabled
+        'dual_history': false
     });
 
     dual_commander.open({
