@@ -277,7 +277,7 @@ def create_blueprint(name, request_delay=0):
         if content_type and content_type == 'application/json':
             return FOLDERS.get(-1)
 
-    @blueprint.route('/folder/<int:node_id>')
+    @blueprint.route('/folder/<int:node_id>/')
     def browser_folder(node_id):
         time.sleep(request_delay)
         template_name = f"features/{_get_template_name(request)}"
@@ -320,5 +320,16 @@ def create_blueprint(name, request_delay=0):
             return document_page_svg(doc_id, page_id)
 
         return render_template("404.html"), 404
+
+    @blueprint.route('/ocr-langs/')
+    def ocr_langs():
+        return {
+            'ocr_langs': [
+                {'title': 'Deutsch', 'value': 'deu'},
+                {'title': 'English', 'value': 'eng'},
+                {'title': 'Русский', 'value': 'rus'},
+                {'title': 'Română', 'value': 'rom'},
+            ]
+        }
 
     return blueprint
