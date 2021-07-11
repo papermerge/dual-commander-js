@@ -206,9 +206,6 @@ class DualCommanderView extends View {
         });
     }
 
-    on_document_click_in_commander_left(doc) {
-    }
-
     on_close_commander_left() {
         this.dual_history.push({
             left: false
@@ -233,9 +230,6 @@ class DualCommanderView extends View {
         });
     }
 
-    on_document_click_in_commander_right(doc) {
-    }
-
     on_close_commander_right() {
         this.dual_history.push({
             right: false
@@ -257,7 +251,13 @@ class DualCommanderView extends View {
     on_close_viewer_left() {
     }
 
-    on_open_viewer_left() {
+    on_open_viewer_left(doc) {
+        this.dual_history.push({
+            left: {
+                doc: doc,
+                viewer: true
+            }
+        });
     }
     // ---
     on_folder_click_in_viewer_right(folder) {
@@ -266,7 +266,13 @@ class DualCommanderView extends View {
     on_close_viewer_right() {
     }
 
-    on_open_viewer_right() {
+    on_open_viewer_right(doc) {
+        this.dual_history.push({
+            right: {
+                doc: doc,
+                viewer: true
+            }
+        });
     }
 
     enable_dual_history() {
@@ -278,11 +284,6 @@ class DualCommanderView extends View {
         this.commander_left.on(
             "folder-click",
             this.on_folder_click_in_commander_left,
-            this
-        );
-        this.commander_left.on(
-            "document-click",
-            this.on_document_click_in_commander_left,
             this
         );
         this.commander_left.on(
@@ -299,11 +300,6 @@ class DualCommanderView extends View {
         this.commander_right.on(
             "folder-click",
             this.on_folder_click_in_commander_right,
-            this
-        );
-        this.commander_right.on(
-            "document-click",
-            this.on_document_click_in_commander_right,
             this
         );
         this.commander_right.on(
