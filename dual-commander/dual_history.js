@@ -96,11 +96,13 @@ class DualHistory {
         let result;
 
         if (viewer) {
-            result = urlconf.document_url(doc);
+            result = urlconf.url('document', {
+                document_id: doc.id
+            });
         }
 
         if (commander) {
-            result = urlconf.folder_url(folder);
+            result = this._folder_url(folder);
         }
 
         if (result) {
@@ -121,11 +123,13 @@ class DualHistory {
         let param;
 
         if (viewer) {
-            param = urlconf.document_url(doc);
+            param = urlconf.url('document', {
+                document_id: doc.id
+            });
         }
 
         if (commander) {
-            param = urlconf.folder_url(folder);
+            param = this._folder_url(folder);
         }
 
         if (param) {
@@ -135,6 +139,24 @@ class DualHistory {
         throw new exceptions.ValueError(
             "Invalid param: viewer and commander missing"
         );
+    }
+
+    _folder_url(folder) {
+        let ret;
+
+        if (folder && folder.id) {
+            ret = urlconf.url('folder', {
+                folder_id: folder.id
+            });
+        } else if (folder) {
+            ret = urlconf.url('folder', {
+                folder_id: folder
+            });
+        } else {
+            ret = urlconf.url('folder');
+        }
+
+        return ret;
     }
 }
 
