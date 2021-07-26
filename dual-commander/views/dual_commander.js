@@ -41,8 +41,6 @@ class DualCommanderView extends View {
         this.on_anyviewer("close-document", this.on_close_document);
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
-        this.on_anypanel("remove", this.on_node_remove);
-        this.on_anypanel("add", this.on_node_add);
 
         if (options['dual_history'] === true) {
             this.enable_dual_history();
@@ -199,19 +197,6 @@ class DualCommanderView extends View {
         receiver_panel.halfscreen();
     }
 
-    on_node_remove(item, receiver_panel, other_panel) {
-        if (other_panel) {
-            other_panel.nodes_col.remove(item);
-        }
-    }
-
-    on_node_add(item_or_items, receiver_panel, other_panel) {
-        if (other_panel) {
-            console.log("Dual commander on_node_add");
-            console.log(`item_or_items=${item_or_items}`);
-            other_panel.nodes_col.add(item_or_items, {silent: true});
-       }
-    }
     // ---
     on_folder_click_in_commander_left(folder) {
         this.dual_history.push({
