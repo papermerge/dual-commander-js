@@ -41,6 +41,7 @@ class DualCommanderView extends View {
         this.on_anyviewer("close-document", this.on_close_document);
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
+        this.on_anypanel("neighbour-moved", this.on_neighbour_moved);
 
         if (options['dual_history'] === true) {
             this.enable_dual_history();
@@ -121,6 +122,20 @@ class DualCommanderView extends View {
             this.viewer_left,
             this.viewer_right
         );
+    }
+
+    on_neighbour_moved(
+        nodes,
+        receiver_panel,
+        other_panel,
+        receiver_viewer,
+        other_viewer
+    ) {
+        /*
+        event sent from neighbor panel signaling that `nodes`
+        were moved (by drag 'n dropping between panels).
+        */
+        other_panel.nodes_col.remove(nodes);
     }
 
     on_close_document(
