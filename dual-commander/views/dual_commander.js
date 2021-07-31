@@ -41,7 +41,7 @@ class DualCommanderView extends View {
         this.on_anyviewer("close-document", this.on_close_document);
         this.on_anypanel("switch-2-dual", this.on_switch_2_dual);
         this.on_anypanel("switch-2-single", this.on_switch_2_single);
-        this.on_anypanel("neighbour-moved", this.on_neighbour_moved);
+        this.on_anypanel("neighbour-fetch-folder", this.on_neighbour_fetch_folder);
 
         if (options['dual_history'] === true) {
             this.enable_dual_history();
@@ -124,8 +124,8 @@ class DualCommanderView extends View {
         );
     }
 
-    on_neighbour_moved(
-        nodes,
+    on_neighbour_fetch_folder(
+        parent,
         receiver_panel,
         other_panel,
         receiver_viewer,
@@ -135,7 +135,27 @@ class DualCommanderView extends View {
         event sent from neighbor panel signaling that `nodes`
         were moved (by drag 'n dropping between panels).
         */
-        other_panel.nodes_col.remove(nodes);
+        if (this._panels_have_same_parent(
+            receiver_panel, other_panel
+        )) {
+            other_panel.fetch_folder({folder: parent});
+        }
+    }
+
+    _panels_have_same_parent(panel_1, panel_2) {
+        /**
+         * Returns true if both panels have same parent (folder)
+         */
+        if (panel_1.parent) {
+            if (panel_2 && panel_1.parent.equal(panel_2.parent)) {
+                return true;
+            }
+        } else {
+            if (panel_2 && !panel_2.parent) {
+                return true;
+            }
+        }
+        return false;
     }
 
     on_close_document(
