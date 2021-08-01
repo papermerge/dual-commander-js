@@ -125,7 +125,7 @@ class DualCommanderView extends View {
     }
 
     on_neighbour_fetch_folder(
-        parent,
+        parent_id,
         receiver_panel,
         other_panel,
         receiver_viewer,
@@ -135,27 +135,11 @@ class DualCommanderView extends View {
         event sent from neighbor panel signaling that `nodes`
         were moved (by drag 'n dropping between panels).
         */
-        if (this._panels_have_same_parent(
-            receiver_panel, other_panel
-        )) {
-            other_panel.fetch_folder({folder: parent});
+        if (other_panel.parent && other_panel.parent.id == parent_id) {
+            other_panel.fetch_folder({folder: {id: parent_id}});
+        } else if (!other_panel.parent && !parent_id) {
+            other_panel.fetch_folder();
         }
-    }
-
-    _panels_have_same_parent(panel_1, panel_2) {
-        /**
-         * Returns true if both panels have same parent (folder)
-         */
-        if (panel_1.parent) {
-            if (panel_2 && panel_1.parent.equal(panel_2.parent)) {
-                return true;
-            }
-        } else {
-            if (panel_2 && !panel_2.parent) {
-                return true;
-            }
-        }
-        return false;
     }
 
     on_close_document(
